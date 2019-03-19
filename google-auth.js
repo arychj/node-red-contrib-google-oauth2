@@ -9,7 +9,7 @@ module.exports = function(RED) {
         this.displayName = n.displayName;
         this.scopes = n.scopes;
     }
-    RED.nodes.registerType("google-credentials",GoogleNode,{
+    RED.nodes.registerType("google-oauth-api-credentials",GoogleNode,{
         credentials: {
             displayName: {type:"text"},
             clientId: {type:"text"},
@@ -20,8 +20,8 @@ module.exports = function(RED) {
         }
     });
 
-    RED.httpAdmin.get('/google-credentials/auth', function(req, res){
-        console.log('google-credentials/auth');
+    RED.httpAdmin.get('/google-oauth-api-credentials/auth', function(req, res){
+        console.log('google-oauth-api-credentials/auth');
         if (!req.query.clientId || !req.query.clientSecret ||
             !req.query.id || !req.query.callback) {
             res.send(400);
@@ -56,8 +56,8 @@ module.exports = function(RED) {
         RED.nodes.addCredentials(node_id, credentials);
     });
 
-    RED.httpAdmin.get('/google-credentials/auth/callback', function(req, res) {
-        console.log('google-credentials/auth/callback');
+    RED.httpAdmin.get('/google-oauth-api-credentials/auth/callback', function(req, res) {
+        console.log('google-oauth-api-credentials/auth/callback');
         if (req.query.error) {
             return res.send("google.error.error", {error: req.query.error, description: req.query.error_description});
         }
